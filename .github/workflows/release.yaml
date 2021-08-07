@@ -20,5 +20,5 @@ jobs:
         run: npm ci
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.CKA_NODE_APP_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.KUBEWATCH_TOKEN }}
         run: npx semantic-release
