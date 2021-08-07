@@ -21,7 +21,7 @@ func Ping() {
 
 		intervalInSeconds := interval.Seconds()
 		for {
-			util.PostEvent("This is a dead man's switch mechanism to ensure alert pipeline is working.")
+			util.PostEvent("V2. This is a dead man's switch mechanism to ensure alert pipeline is working.")
 			time.Sleep(time.Duration(intervalInSeconds) * time.Second)
 		}
 	}
