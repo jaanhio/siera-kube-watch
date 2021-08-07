@@ -1,0 +1,27 @@
+name: Docker build and publish on new release event
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build new image
+      id: docker_build
+      shell: bash
+      run: |
+        docker build . -t kubewatch
+        echo "::set-output name=docker_build_result::$(echo $?)"
+    - name: Push to Docker Hub
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASS }}
+        repository: jaanhio/kubewatch
+        tag_with_ref: true
