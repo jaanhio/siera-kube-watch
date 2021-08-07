@@ -47,4 +47,4 @@ We provide a helm chart for easy installation https://github.com/warungpintar/ch
 ## Result telegram
 ![GitHub Logo](docs/result-telegram.png)
 
-docker image size is just 35.2MB
+docker image size is just only 35.2MB
