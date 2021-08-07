@@ -1,6 +1,6 @@
 .idea/
 vendor/
-
+node_modules/
 # Binary File
 siera-kube-watch
 
