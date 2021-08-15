@@ -1,8 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
+	"path/filepath"
 
 	"github.com/warungpintar/siera-kube-watch/config"
 	liveness_check "github.com/warungpintar/siera-kube-watch/liveness-check"
@@ -14,11 +16,27 @@ import (
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/util/homedir"
 )
 
 func main() {
+
+	var kubeconfig *string
+	if home := homedir.HomeDir(); home != "" {
+		fmt.Println("here")
+		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
+	} else {
+		fmt.Println("there")
+		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
+	}
+
+	flag.Parse()
+
+	fmt.Printf("kubeconfig path: %s \n", *kubeconfig)
+
 	//setup kubernetesConfig so the client can connect to kube cluster
-	kubernetesConfig, err := clientcmd.BuildConfigFromFlags("", "")
+	// kubernetesConfig, err := clientcmd.BuildConfigFromFlags("", "")
+	kubernetesConfig, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
 
 	// uncomment this to test on on your local
 	// kubernetesConfig, err := clientcmd.BuildConfigFromFlags("", filepath.Join(os.Getenv("HOME"), ".kube", "config"))
