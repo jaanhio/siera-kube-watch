@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"strings"
 
 	"gopkg.in/yaml.v2"
 )
@@ -47,14 +46,19 @@ type Config struct {
 
 var GlobalConfig = &Config{}
 
+func IsRunningInPod() bool {
+	serviceHost := os.Getenv("KUBERNETES_SERVICE_HOST")
+	return serviceHost != ""
+}
+
 func (config *Config) Load() (err error) {
 
 	var configpath string
 
-	if env := strings.ToLower(os.Getenv("ENV")); env == "dev" {
-		configpath = "./config.yaml"
-	} else {
+	if IsRunningInPod() {
 		configpath = "/usr/src/app/etc/siera-kube-watch/config.yaml"
+	} else {
+		configpath = "./config.yaml"
 	}
 
 	yamlFile, err := ioutil.ReadFile(configpath)
