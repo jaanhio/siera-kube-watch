@@ -23,10 +23,11 @@ func main() {
 
 	var kubeconfig *string
 
-	if home := homedir.HomeDir(); home != "" {
-		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
-	} else {
+	if config.IsRunningInPod() {
 		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
+	} else {
+		home := homedir.HomeDir()
+		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
 	}
 
 	flag.Parse()
