@@ -13,6 +13,11 @@ livenesscheck:
   enabled: true
   interval: "1m"
 ```
+# Development
+For local development work, run the following:
+```
+ENV=dev go run main.go
+```
 
 # Build and Run
 
