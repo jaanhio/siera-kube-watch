@@ -24,10 +24,8 @@ func main() {
 	var kubeconfig *string
 
 	if home := homedir.HomeDir(); home != "" {
-		fmt.Println("here")
 		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
 	} else {
-		fmt.Println("there")
 		kubeconfig = flag.String("kubeconfig", "", "absolute path to the kubeconfig file")
 	}
 
