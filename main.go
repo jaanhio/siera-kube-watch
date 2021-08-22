@@ -22,6 +22,7 @@ import (
 func main() {
 
 	var kubeconfig *string
+
 	if home := homedir.HomeDir(); home != "" {
 		fmt.Println("here")
 		kubeconfig = flag.String("kubeconfig", filepath.Join(home, ".kube", "config"), "(optional) absolute path to the kubeconfig file")
@@ -32,14 +33,8 @@ func main() {
 
 	flag.Parse()
 
-	fmt.Printf("kubeconfig path: %s \n", *kubeconfig)
-
-	//setup kubernetesConfig so the client can connect to kube cluster
-	// kubernetesConfig, err := clientcmd.BuildConfigFromFlags("", "")
 	kubernetesConfig, err := clientcmd.BuildConfigFromFlags("", *kubeconfig)
 
-	// uncomment this to test on on your local
-	// kubernetesConfig, err := clientcmd.BuildConfigFromFlags("", filepath.Join(os.Getenv("HOME"), ".kube", "config"))
 	if err != nil {
 		log.Fatalf("Error parsing kubernetes config: %v", err)
 	}

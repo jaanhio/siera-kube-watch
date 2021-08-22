@@ -3,6 +3,8 @@ package config
 import (
 	"io/ioutil"
 	"log"
+	"os"
+	"strings"
 
 	"gopkg.in/yaml.v2"
 )
@@ -46,10 +48,17 @@ type Config struct {
 var GlobalConfig = &Config{}
 
 func (config *Config) Load() (err error) {
-	yamlFile, err := ioutil.ReadFile("/usr/src/app/etc/siera-kube-watch/config.yaml")
 
-	// uncomment this to test on your local
-	// yamlFile, err := ioutil.ReadFile("./config.yaml")
+	var configpath string
+
+	if env := strings.ToLower(os.Getenv("ENV")); env == "dev" {
+		configpath = "./config.yaml"
+	} else {
+		configpath = "/usr/src/app/etc/siera-kube-watch/config.yaml"
+	}
+
+	yamlFile, err := ioutil.ReadFile(configpath)
+
 	if err != nil {
 		log.Fatalf("Error read config file: %v", err)
 		return
